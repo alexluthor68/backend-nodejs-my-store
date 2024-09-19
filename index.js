@@ -13,10 +13,35 @@ app.get('/nueva-ruta', (req, res) => { // (2)Creamos una nueva ruta, entonces, v
   res.send('Hola, soy una nueva ruta');
 });
 
-app.get('/products', (req, res) => { // (3)Vamos a definir otra nueva ruta, por ejemplo: '/products'; entonces, por acá le decimos que queremos los productos. Sin embargo, podemos jugar con lo que nosotros respondemos a nuestro cliente, en este caso estamos enviando un simple SEND con un string; pero también podemos enviar otro tipo de formato y lo que más vamos a usar con frecuencia en nuestro servidor es un formato JSON, es decir: |JavaScript Object Notation|, porque al final vamos a realizar una API y vamos a comunicar datos normalmente a clientes de "Frontend" o "Aplicaciones Móviles" que ya se encargan de renderizar la información; así que no vamos a renderizar como tal, si no vamos a tener todo el papel de una API. Entonces aquí tenemos un |JavaScript Object Notation|. ¿Qué podemos hacer con él? Por ejemplo, podemos enviar un objeto y ver cómo lo va a renderizar.
-  res.json({
+// Si te fijas, ya tenemos aquí nuestro endpoint de products; pero estamos manejando la convención de una mala manera. ¿Por qué? Porque dijimos que slash /products, y más aún con el método GET, debería devolver una lista de productos y solo estamos devolviendo un producto; entonces, este sería un uso inadecuado, porque lo que normalmente esperamos en un GET de slash /products es una lista de productos. Entonces, vamos a transformar esto en un array [ ] y aprovechamos y enviamos dos productos.
+app.get('/products', (req, res) => {
+  res.json([
+    {
     name: 'Product 1',
     price: 1000
+    },
+    {
+    name: 'Product 2',
+    price: 1375
+    }
+  ]);
+});
+// Pero ¿cómo hacemos el endpoint para recibir o devolver el detalle de un producto recibiendo el ID? Entonces, vamos a ver y vamos a declarar un nuevo endpoint llamado: app.get('/products/:id'), lo que va a cambiar aquí es que voy a recibir un identificador y le pongo estos dos puntos |:|, que significa es que va a ser un parámetro. Luego le añado mi CALLBACK que siempre recibe el 'request' y el 'response' y con la => manejamos qué es lo que queremos retornar. Ahora, sí, podríamos decirle que queremos solo retornar un "objeto" y decimos res.json(); y devolverle un producto en específico; para ello copiamos uno de los productos anteriores y lo pegamos dentro de los parámeatros de JSON(). Es más, voy a recoger el ID que me están enviando y también añadirle la respuesta.
+app.get('/products/:id', (req, res) => {
+  const { id } = req.params; // ¿Cómo recogemos ese ID? Vamos a crear una variable CONST, y normalmente eso viene en el "req", acá vamos a encontrar una propiedad en el "request" llamada "params", aquí va a ver un objeto con ALL lo que hemos agregado, por ejemplo: si le ponemos un ID, allí vendría precisamente el IDENTIFICADOR |const id = req.params.id;|. Existe una mejor manera de hacerlo, utilizando la destructuración de SMACSCRIPT { }; entonces, le voy a decir que desde los parametros solo me interesa el ID. |const { id } = req.params;| esta sintaxis hace que de todos los parametros que pueda tener este OBJETO "params" solo me interesa recoger el ID, y luego, simplemente lo devolvemos !en esta parte del código el profe digita la palabra "id" en la línea 33; es decir entre: res.json({ y el name.'Products 2'!. Veamos cuál sería el resultado de este nuevo endpoint.
+  res.json({
+    id,
+    name: 'Product 2',
+    price: 1375
+  });
+});
+
+// ¿Cómo haríamos para obtener un endpoint un poco más complejo con dos parámetros? Veámoslo; entonces, vamos a crear otro endpoint en la línea 40, ejecutando el código: |app.get(‘/categories/:id/products’)| vamos a decirle por ejemplo, que el endpoint de categorías. La estructura va a ser la siguiente y yo quiero que de una categoría en específico, le voy a enviar el ID, que de ahí retorne los productos que pertenecen a esa categoría. Podríamos hacerlo de esta manera. Ese sería un endpoint que va a otro nivel de profundidad. Sin embargo, también podría recibir parámetros. Supongamos que por X motivo, también quiero el ID del producto. Aquí se debe tener en cuenta que ahora sí debe variar, porque si le pongo una ID, |app.get(‘/categories/:id/products/:id’)| la misma ruta está recibiendo dos parámetros iguales y sería incorrecto. Así que, por ejemplo, aquí le podría poner categoryId para definirlos y este va a ser productId, entonces tendríamos dos parámetros en la misma ruta |app.get(‘/categories/:categoryId/products/:productId’, (req, res) => {})| ¿Cómo los recibimos? Es muy sencillo, porque al final seguimos teniendo con nuestro request y nuestro response y nuestro callback, vamos a obtener esos parámetros y lo hacemos de la misma manera copiando el código de la línea 31 |const { id } = req.params; | y lo pegamos justo debajo del cuerpo de la función del callback de la línea 41 y lo único que debemos hacer es recogerlos con el nombre que le colocamos, en este caso categoryId y el productId |const { categoryId, productId } = req.params; | y los voy a retornar de forma directa colocándolos también dentro de los parámetros de: res.json({categoryId, productId,})
+app.get('/categories/:categoryId/products/:productId', (req, res) => {
+  const { categoryId, productId } = req.params;
+  res.json({
+    categoryId,
+    productId,
   });
 });
 
