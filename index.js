@@ -36,6 +36,19 @@ app.get('/products/:id', (req, res) => {
   });
 });
 
+// Pero veamos cómo recogeríamos éstos parámetros en nuestra aplicación. Veamos cómo recoger parámetros tipo QUERY[consulta]. Abrímos otro nuevo ENDPOINT, como el parámetro es opcional, entonces no va a venir definido directamente en la ruta, si no, pues es opcional y va a venir como parámetros dentro de nuestro REQUEST, pero desde otro objeto. A continuación el profe se traé ALL el código de la línea 35 |const { id } = req.params;| y lo pega justo debajo de este nuevo ENDPOINT |app.get('/users', (req, res) => {| y reemplaza el PARAMS por el QUERY y el ID que se encuentra dentro de las {} { id }, lo reemplaza por LIMIT y OFFSET, aquí el profe añade el comentario: "USERS tiene una nueva estrategia de paginación de LIMIT y OFFSET"; entonces aquí vamos a recoger estos dos parámetros y vamos a ver sí los recibimos o no; entonces como son opcionales se debe realizar una VALIDACIÓN con el condicional IF, si cumple las 2 condiciones nos devuelve la respuesta en |res.json({})| y si no cumple, con el ELSE nos devuelve un mensaje mediante |res.send('')|
+app.get('/users', (req, res) => {
+  const { limit, offset } = req.query;
+  if (limit && offset) {
+    res.json({
+      limit,
+      offset
+  });
+  } else {
+    res.send('No hay parámetros');
+  }
+});
+
 // ¿Cómo haríamos para obtener un endpoint un poco más complejo con dos parámetros? Veámoslo; entonces, vamos a crear otro endpoint en la línea 40, ejecutando el código: |app.get(‘/categories/:id/products’)| vamos a decirle por ejemplo, que el endpoint de categorías. La estructura va a ser la siguiente y yo quiero que de una categoría en específico, le voy a enviar el ID, que de ahí retorne los productos que pertenecen a esa categoría. Podríamos hacerlo de esta manera. Ese sería un endpoint que va a otro nivel de profundidad. Sin embargo, también podría recibir parámetros. Supongamos que por X motivo, también quiero el ID del producto. Aquí se debe tener en cuenta que ahora sí debe variar, porque si le pongo una ID, |app.get(‘/categories/:id/products/:id’)| la misma ruta está recibiendo dos parámetros iguales y sería incorrecto. Así que, por ejemplo, aquí le podría poner categoryId para definirlos y este va a ser productId, entonces tendríamos dos parámetros en la misma ruta |app.get(‘/categories/:categoryId/products/:productId’, (req, res) => {})| ¿Cómo los recibimos? Es muy sencillo, porque al final seguimos teniendo con nuestro request y nuestro response y nuestro callback, vamos a obtener esos parámetros y lo hacemos de la misma manera copiando el código de la línea 31 |const { id } = req.params; | y lo pegamos justo debajo del cuerpo de la función del callback de la línea 41 y lo único que debemos hacer es recogerlos con el nombre que le colocamos, en este caso categoryId y el productId |const { categoryId, productId } = req.params; | y los voy a retornar de forma directa colocándolos también dentro de los parámetros de: res.json({categoryId, productId,})
 app.get('/categories/:categoryId/products/:productId', (req, res) => {
   const { categoryId, productId } = req.params;
