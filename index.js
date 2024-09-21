@@ -1,5 +1,6 @@
 const express = require('express');
 
+const { faker } = require('@faker-js/faker'); // Implementamos el paquete Faker.
 // A continuación vamos a crear una aplicación. ¿Cómo se hace esto? Mediante una variable const que lleve el nombre de: |pp|, que va a ser = a |express();|, que es un constructor o es un método que al final nos va a crear esta aplicación
 const app = express();
 // Una vez hecho lo anterior, podemos decirle en dónde queremos que corra nuestra aplicación; entonces le decimos el puerto en donde queremos que corra. Normalmente podemos poner el puerto 3000, 3005; pero en este caso vamos a colocar el 3000.
@@ -36,7 +37,7 @@ app.get('/products/:id', (req, res) => {
   });
 });
 
-// Pero veamos cómo recogeríamos éstos parámetros en nuestra aplicación. Veamos cómo recoger parámetros tipo QUERY[consulta]. Abrímos otro nuevo ENDPOINT, como el parámetro es opcional, entonces no va a venir definido directamente en la ruta, si no, pues es opcional y va a venir como parámetros dentro de nuestro REQUEST, pero desde otro objeto. A continuación el profe se traé ALL el código de la línea 35 |const { id } = req.params;| y lo pega justo debajo de este nuevo ENDPOINT |app.get('/users', (req, res) => {| y reemplaza el PARAMS por el QUERY y el ID que se encuentra dentro de las {} { id }, lo reemplaza por LIMIT y OFFSET, aquí el profe añade el comentario: "USERS tiene una nueva estrategia de paginación de LIMIT y OFFSET"; entonces aquí vamos a recoger estos dos parámetros y vamos a ver sí los recibimos o no; entonces como son opcionales se debe realizar una VALIDACIÓN con el condicional IF, si cumple las 2 condiciones nos devuelve la respuesta en |res.json({})| y si no cumple, con el ELSE nos devuelve un mensaje mediante |res.send('')|
+// l-40. Pero veamos cómo recogeríamos éstos parámetros en nuestra aplicación. Veamos cómo recoger parámetros tipo QUERY[consulta]. Abrímos otro nuevo ENDPOINT, como el parámetro es opcional, entonces no va a venir definido directamente en la ruta, si no, pues es opcional y va a venir como parámetros dentro de nuestro REQUEST, pero desde otro objeto. A continuación el profe se traé ALL el código de la línea 31 |const { id } = req.params;| y lo pega justo debajo de este nuevo ENDPOINT |app.get('/users', (req, res) => {| y reemplaza el PARAMS por el QUERY y el ID que se encuentra dentro de las {} { id }, lo reemplaza por LIMIT y OFFSET, aquí el profe añade el comentario: "USERS tiene una nueva estrategia de paginación de LIMIT y OFFSET"; entonces aquí vamos a recoger estos dos parámetros y vamos a ver sí los recibimos o no; entonces como son opcionales se debe realizar una VALIDACIÓN con el condicional IF, si cumple las 2 condiciones nos devuelve la respuesta en |res.json({})| y si no cumple, con el ELSE nos devuelve un mensaje mediante |res.send('')|
 app.get('/users', (req, res) => {
   const { limit, offset } = req.query;
   if (limit && offset) {
