@@ -1,7 +1,7 @@
 const express = require('express');
 
 const { faker } = require('@faker-js/faker'); // Implementamos el paquete Faker.
-// A continuación vamos a crear una aplicación. ¿Cómo se hace esto? Mediante una variable const que lleve el nombre de: |pp|, que va a ser = a |express();|, que es un constructor o es un método que al final nos va a crear esta aplicación
+// A continuación vamos a crear una aplicación. ¿Cómo se hace esto? Mediante una variable const que lleve el nombre de: |pp|, que va a ser = a |express();|, que es un constructor o es un método que al final nos va a crear esta aplicación.
 const app = express();
 // Una vez hecho lo anterior, podemos decirle en dónde queremos que corra nuestra aplicación; entonces le decimos el puerto en donde queremos que corra. Normalmente podemos poner el puerto 3000, 3005; pero en este caso vamos a colocar el 3000.
 const port = 3000;
@@ -16,16 +16,15 @@ app.get('/nueva-ruta', (req, res) => { // (2)Creamos una nueva ruta, entonces, v
 
 // Si te fijas, ya tenemos aquí nuestro endpoint de products; pero estamos manejando la convención de una mala manera. ¿Por qué? Porque dijimos que slash /products, y más aún con el método GET, debería devolver una lista de productos y solo estamos devolviendo un producto; entonces, este sería un uso inadecuado, porque lo que normalmente esperamos en un GET de slash /products es una lista de productos. Entonces, vamos a transformar esto en un array [ ] y aprovechamos y enviamos dos productos.
 app.get('/products', (req, res) => {
-  res.json([
-    {
-    name: 'Product 1',
-    price: 1000
-    },
-    {
-    name: 'Product 2',
-    price: 1375
-    }
-  ]);
+  const products = [];
+  for (let index = 0; index < 100; index++) {
+    products.push({
+      name: faker.commerce.productName(),
+      price: parseInt(faker.commerce.price(), 10),
+      image: faker.image.imageUrl(),
+    });
+  }
+  res.json(products);
 });
 // Pero ¿cómo hacemos el endpoint para recibir o devolver el detalle de un producto recibiendo el ID? Entonces, vamos a ver y vamos a declarar un nuevo endpoint llamado: app.get('/products/:id'), lo que va a cambiar aquí es que voy a recibir un identificador y le pongo estos dos puntos |:|, que significa es que va a ser un parámetro. Luego le añado mi CALLBACK que siempre recibe el 'request' y el 'response' y con la => manejamos qué es lo que queremos retornar. Ahora, sí, podríamos decirle que queremos solo retornar un "objeto" y decimos res.json(); y devolverle un producto en específico; para ello copiamos uno de los productos anteriores y lo pegamos dentro de los parámeatros de JSON(). Es más, voy a recoger el ID que me están enviando y también añadirle la respuesta.
 app.get('/products/:id', (req, res) => {
