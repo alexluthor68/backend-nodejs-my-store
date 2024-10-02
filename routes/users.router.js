@@ -3,7 +3,7 @@ const express = require('express');
 const usersService = require('./services/user.service');
 
 const router = express.Router();
-const service = new UsersService();
+const service = new usersService();
 
 router.get('/', (req, res) => {
   const users = service.find();
@@ -12,13 +12,8 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
   const { id } = req.params;
-
-  res.json({
-    id,
-    name: faker.person.firstName(),
-    lastName: faker.person.lastName(),
-    image: faker.image.imageUrl(),
-  });
+  const user = service.findOne(id);
+  res.json(user);
 });
 
 router.post('/', (req, res) => {
