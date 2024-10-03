@@ -36,8 +36,8 @@ class productsService {
     return this.products.find(item => item.id === id);
   }
 
-  update() {
-
+  update(id) {
+    const index = this.products.findIndex(item => item.id === id);
   }
 
   delete() {
