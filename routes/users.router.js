@@ -25,19 +25,14 @@ router.post('/', (req, res) => {
 router.patch('/:id', (req, res) => {
   const { id } = req.params;
   const body = req.body;
-  res.json({
-    message: 'Update partial',
-    data: body,
-    id,
-  });
+  const user = service.update(id, body);
+  res.json(user);
 });
 
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
-  res.json({
-    message: 'delete',
-    id,
-  });
+  const user = service.delete(id);
+  res.json(user);
 });
 
 module.exports = router;
