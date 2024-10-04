@@ -19,8 +19,13 @@ class usersService {
     }
   }
 
-  create() {
-
+  create(data) {
+    const newUser = {
+      id: faker.string.uuid(),
+      ...data
+    }
+    this.users.push(newUser);
+    return newUser;
   }
 
   find() {
