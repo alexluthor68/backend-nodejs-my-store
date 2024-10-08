@@ -16,11 +16,11 @@ app.get('/nueva-ruta', (req, res) => {
   res.send('Hola, soy una nueva ruta');
 });
 
-app.listen(port, () => {
-  console.log('Mi port', + port);
-});
-
 routerApi(app);
 
 app.use(logErrors);
 app.use(errorHandler);
+
+app.listen(port, () => {
+  console.log('Mi port' +  port);
+});
