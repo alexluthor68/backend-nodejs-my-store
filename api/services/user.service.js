@@ -1,6 +1,8 @@
 const { faker } = require('@faker-js/faker');
 
-class usersService {
+const boom = require('@hapi/boom');
+
+class UsersService {
 
   constructor() {
     this.users = [];
@@ -60,4 +62,4 @@ class usersService {
 
 }
 
-module.exports = usersService;
+module.exports = UsersService;
