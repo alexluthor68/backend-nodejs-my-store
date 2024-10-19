@@ -13,6 +13,17 @@
       "dest": "api/index.js"
     }
   ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "style-src 'self' 'unsafe-inline' https://www.gstatic.com"
+        }
+      ]
+    }
+  ],
   "main": "api/index.js",
   "scripts": {
     "dev": "nodemon api/index.js",
