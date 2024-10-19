@@ -1,6 +1,8 @@
 {
   "name": "my-store",
   "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "builds": [
     {
       "src": "/api/index.js",
@@ -24,7 +26,6 @@
       ]
     }
   ],
-  "main": "api/index.js",
   "scripts": {
     "dev": "nodemon api/index.js",
     "start": "node api/index.js",
@@ -33,7 +34,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "devDependencies": {
     "eslint": "^9.10.0",
     "eslint-config-prettier": "^9.1.0",
